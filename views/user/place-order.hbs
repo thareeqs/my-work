@@ -1,0 +1,52 @@
+
+<div class="container">
+  
+    
+      <form action="" id="check-form">
+        <div class="row">
+        <div class="col-6">
+        <h1>user details</h1>
+        <label for="">Name</label>
+          <input type="text" class="form-control" name="Name">
+        <label for="">Email</label>
+          <input type="email" class="form-control" name="Email">
+        <label for="">Number</label>
+          <input type="text" class="form-control" name="Number">
+        <label for="">Pincode</label>
+          <input type="text" class="form-control" name="Pincode">
+           <input type="text" name="userId" value="{{this.user._id}}" hidden>
+          </div>
+          <div class="col-4 " >
+            <div class="container mt-5 ml-5">
+              <h2>payment method</h2>
+              <label for="" class="radio-inline">
+                <input type="radio" name="payment-method" id="" value="COD">COD
+              </label>
+              <label for="" class="radio-inline">
+                <input type="radio" name="payment-method" id="" value="ONLINE">ONLINE
+              </label><br>
+             
+              <button class="btn btn-primary" type="submit">place order</button>
+            </div>
+            
+          </div>
+         </div>
+      </form>
+    
+</div>
+<script>
+    $('#check-form').submit((e)=>{
+      e.preventDefault()
+      $.ajax({
+        url:'/place-order',
+        method:'post',
+        data:$('#check-form').serialize(),
+        success:(response)=>{
+          
+          if(response.status){
+            location.href='/order-success'
+          }
+        }
+      })
+    })
+</script>

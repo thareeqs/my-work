@@ -1,0 +1,31 @@
+
+<table class="table">
+  <thead>
+    <div class="d-flex justify-content-center">
+    <a href="/admin/add-product" class="btn btn-warning p-3 mt-3 "><b> add product</b></a>
+    </div>
+    <tr>
+      <th scope="col">date</th>
+      <th scope="col">Name</th>
+      <th scope="col">Email</th>
+      <th scope="col">Number</th>
+      <th scope="col">Price</th>
+      <th scope="col">pincode</th>
+      <th scope="col">payment-method</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+     {{#each orderView}}
+      <td scope="row">{{this.date}}</td>
+      <td>{{this.deliveryDetails.name}}</td>
+      <td>{{this.deliveryDetails.email}}</td>
+      <td>{{this.deliveryDetails.number}}</td>
+      <td>{{this.deliveryDetails.totalAmount}}</td>
+      <td>{{this.deliveryDetails.pincode}} </td>
+      <td>{{this.paymentMethod}} </td>
+      <td><a href="/view-order/{{this._id}}">a</a></td>
+    </tr>
+   {{/each}}
+  </tbody>
+</table>

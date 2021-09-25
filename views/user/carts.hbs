@@ -1,0 +1,96 @@
+<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+<div class="container">
+  <table id="cart" class="table table-hover table-condensed">
+    <thead>
+      <tr>
+        <th style="width:20%">Product</th>
+        <th style="width:20%">Description</th>
+        <th style="width:13%">catagory</th>
+        <th style="width:10%">Price</th>
+        <th style="width:12%">Quantity</th>
+        <th style="width:10%" >action</th>
+        <th style="width:10%" >Subtotal</th>
+       
+      </tr>
+    </thead>
+    <tbody>
+      {{#each products}}
+      <tr>
+      
+        <td data-th="Product">
+          <div class="row"><div class="col-sm-10">
+              <h4 class="nomargin" >{{this.product.Name}} 1</h4>
+            <div class="col-sm-2 hidden-xs"><img src="images/{{product.fileName}}" style="width: 50px; height: 50px;"></div>
+            &nbsp;
+            
+              
+            </div>
+          </div>
+        </td>
+       
+        <td >{{this.product.Description}}</td>
+        <td >{{product.Catagory}}</td>
+        <td >{{product.Price}}</td>
+        
+        <td data-th="Quantity">
+          
+          <button class="btn btn-danger"  onclick="changeQuantity('{{this._id }}','{{this.product._id}}','{{../this.user}}',-1)">-</button>
+          {{!-- <input   style="width: 23%;" id="{{this.product._id}}" value='{{this.quantity}}'> --}}
+          <span id="{{this.product._id}}">{{this.quantity}}</span>
+          <button class="btn btn-success" onclick="changeQuantity('{{this._id }}','{{this.product._id}}','{{../this.user}}',1)">+</button>
+          
+        </td>
+        
+        <td class="actions" data-th="">
+          <button class="btn btn-info btn-sm"><i class="fa fa-refresh"></i></button>
+          <button class="btn btn-danger btn-sm"><i class="fa fa-trash-o"></i></button>
+        </td>
+         <td data-th="Subtotal" >$5.11</td> 
+         
+      </tr>
+     {{/each}}
+    </tbody>
+    <tfoot>
+      <tr class="visible-xs">
+        <td class="text-center"><strong>Total $ 5.11</strong></td>
+      </tr>
+      <tr>
+        <td><a href="#" class="btn btn-warning"><i class="fa fa-angle-left"></i> Continue Shopping</a></td>
+        <td colspan="2" class="hidden-xs"></td>
+        <td class="hidden-xs text-center"><strong>Total $ <span id="total">{{this.totalValue}}</span> </strong></td>
+        <td><a href="/checkout" class="btn btn-success btn-block">Checkout <i class="fa fa-angle-right"></i></a></td>
+      </tr>
+    </tfoot>
+  </table>
+</div>
+
+<script>
+  function changeQuantity(cartId,proId,userId,count){
+    let quantity=Number(document.getElementById(proId).innerHTML)
+    count=parseInt(count)
+    $.ajax({
+      url:'/change-product-quantity',
+       dataType: 'JSON',
+      data:{
+        user:userId,
+        cart:cartId,
+        product:proId,
+        count:count,
+        quantity:quantity
+      },
+        method:'post',
+        success:(response)=>{
+          
+          if(response.removeProduct){
+            alert("product is removed from cart")
+              location.reload()
+          }else{
+            document.getElementById(proId).innerHTML=quantity+count 
+            document.getElementById('total').innerHTML=response.total
+          }
+          
+        }
+      
+    })
+  }
+</script>
